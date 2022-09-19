@@ -94,6 +94,7 @@ void titleScreen(){
     gfx_PrintStringXY("2nd to confirm", 110, 160);
     gfx_PrintStringXY("Alpha to go through text boxes", 60, 180);
     gfx_PrintStringXY("Del to return to Main Menu", 80, 200);
+    gfx_PrintStringXY("v0.1.2", 0, 230);
     while(!os_GetCSC());
     return;
 }
