@@ -1,4 +1,4 @@
-unsigned char global_palette[336] =
+unsigned char global_palette[340] =
 {
     0x10, 0x7c, /*   0: rgb(255,   0, 132) */
     0xff, 0xff, /*   1: rgb(255, 255, 255) */
@@ -168,4 +168,6 @@ unsigned char global_palette[336] =
     0xd7, 0xfb, /* 165: rgb(247, 247, 189) */
     0xdd, 0xfb, /* 166: rgb(247, 247, 239) */
     0xde, 0xfb, /* 167: rgb(247, 247, 247) */
+    0x40, 0xff, /* 168: rgb(255, 215,   0) */
+    0x60, 0x7f, /* 169: rgb(255, 219,   0) */
 };

@@ -26,6 +26,7 @@ extern "C" {
 #include "gyarados_back.h"
 #include "mewtwo.h"
 #include "mewtwo_back.h"
+#include "timon.h"
 
 #ifdef __cplusplus
 }

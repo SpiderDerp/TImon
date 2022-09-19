@@ -38,4 +38,6 @@ mewtwo.h
 mewtwo.c
 mewtwo_back.h
 mewtwo_back.c
+timon.h
+timon.c
 gfx.h

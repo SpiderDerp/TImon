@@ -20,6 +20,7 @@ typedef struct {
     char * speed;
 } Pokemon;
 
+void titleScreen();
 void generateField(char * moves[][3], char * pokemon[][9]);
 void battle(char * moves[][3], char * pokemon[][9]);
 int calcDamage(Pokemon defender, char * moves[][3], char * move);
@@ -29,6 +30,7 @@ int main(void)
     gfx_Begin();
 
     gfx_SetPalette(global_palette, sizeof_global_palette, 0);
+
 
     gfx_SetTransparentColor(0);
     gfx_FillScreen(1);
@@ -73,6 +75,8 @@ int main(void)
         {"Mewtwo", "106", "Confusion", "Psychic", "Future Sight", "Shadow Ball", "Psychic", "130"},
     };
     rtc_Enable(0);
+
+    titleScreen();
     generateField(moves, pokemon);
 
     gfx_End();
@@ -80,8 +84,23 @@ int main(void)
     return 0;
 }
 
+void titleScreen(){
+    gfx_FillScreen(2);
+    gfx_SetTextFGColor(1);
+    gfx_ScaledTransparentSprite_NoClip(timon, 60, 10, 2, 2);
+    gfx_PrintStringXY("Press any Key to start", 85, 80);
+    gfx_PrintStringXY("Controls:", 130, 120);
+    gfx_PrintStringXY("/, x, - and + to select your move", 60, 140);
+    gfx_PrintStringXY("2nd to confirm", 110, 160);
+    gfx_PrintStringXY("Alpha to go through text boxes", 60, 180);
+    gfx_PrintStringXY("Del to return to Main Menu", 80, 200);
+    while(!os_GetCSC());
+    return;
+}
+
 void generateField(char * moves[][3], char * pokemon[][9])
 {
+    gfx_SetTextFGColor(2);
     gfx_ScaledTransparentSprite_NoClip(battlescene1, 0, 0, 2, 2);
     gfx_TransparentSprite(battlebase, -5, 115);
     gfx_TransparentSprite(battlebase, 160, 70);
@@ -235,7 +254,6 @@ void generateField(char * moves[][3], char * pokemon[][9])
                     player1move =  player1.move4;
                     break;
                 default:
-                    player1move = player1.move1;
                     break;
             }
 
@@ -277,7 +295,7 @@ void generateField(char * moves[][3], char * pokemon[][9])
         {
             kb_Scan();
             key = kb_Data[6];
-        } while (kb_Data[2] != kb_Alpha);
+        } while (!(kb_Data[2] & kb_Alpha));
         damage = calcDamage(player2, moves, player1move);
         if (atoi(player2.hp) - damage < 0)
         {
@@ -288,16 +306,21 @@ void generateField(char * moves[][3], char * pokemon[][9])
         gfx_PrintStringXY(("%s", player2.name), 15, 42);
         gfx_PrintStringXY("HP: ", 115, 52);
         gfx_PrintStringXY(("%s", player2.hp), 135, 52);
+
         gfx_ScaledTransparentSprite_NoClip(dialoguebox, 0, 160, 2, 2);
+        gfx_PrintStringXY(("%s", player1.name), 45, 190);
+        gfx_PrintStringXY("used", 45, 200);
+        gfx_PrintStringXY(("%s", player1move), 80, 200);
         if(atoi(player2.hp) <= 0){
             winner = "1";
             break;
         }
+        while(!os_GetCSC());
         do
         {
             kb_Scan();
             key = kb_Data[6];
-        } while (kb_Data[2] != kb_Alpha);
+        } while (!(kb_Data[2] & kb_Alpha));
         gfx_ScaledTransparentSprite_NoClip(dialoguebox, 0, 160, 2, 2);
         //Moves
         gfx_PrintStringXY(("%s", player1.move1), 45, 180);
@@ -306,7 +329,6 @@ void generateField(char * moves[][3], char * pokemon[][9])
         gfx_PrintStringXY(("%s", player1.move4), 200, 210);
 
     }
-    //display both healtsh
 
     if (strcmp(winner, "2") == 0){
         gfx_ScaledTransparentSprite_NoClip(dialoguebox, 0, 160, 2, 2);
@@ -367,6 +389,8 @@ int calcDamage(Pokemon defender, char * moves[][3], char * move) {
         typedamage = 2;
     } else if(strcmp(movetype,"Psychic") == 0 && strcmp(defender.type,"Psychic") == 0) {
         typedamage = 0.5;
+    } else if(strcmp(movetype,"Dark") == 0 && strcmp(defender.type, "Psychic") == 0) {
+        typedamage = 2;
     } else {
         typedamage = 1;
     }
