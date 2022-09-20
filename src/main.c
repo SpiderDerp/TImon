@@ -18,6 +18,7 @@ typedef struct {
     char * move4;
     char * type;
     char * speed;
+    char * maxhp;
 } Pokemon;
 
 void titleScreen();
@@ -60,7 +61,24 @@ int main(void)
         {"Dragon Rage", "Dragon", "40"},
         {"Aqua Tail", "Water", "90"},
         {"Hyper Beam", "Normal", "150"},
-        {"Shadow Ball", "Ghost", "80"}
+        {"Shadow Ball", "Ghost", "80"},
+        {"Karate Chop", "Fighting", "50"},
+        {"Cross Chop", "Fighting", "100"},
+        {"Submission", "Fighting", "80"},
+        {"Focus Punch", "Fighting", "150"},
+        {"Body Slam", "Normal", "85"},
+        {"Earthquake", "Ground", "100"},
+        {"Blizzard", "Ice", "110"},
+        {"Aurora Beam", "Ice", "65"},
+        {"Thunder", "Electric", "110"},
+        {"Thunderbolt", "Electric", "90"},
+        {"Drill Peck", "Flying", "80"},
+        {"Thunder Wave", "Electric", "10"},
+        {"Fire Spin", "Fire", "35"},
+        {"Lick", "Ghost", "30"},
+        {"Dream Eater", "Ghost", "Psychic"}
+
+
     };
 
     static char * pokemon[][9] =
@@ -73,6 +91,8 @@ int main(void)
         {"Gyarados", "95", "Bite", "Hydro Pump", "Dragon Rage", "Aqua Tail", "Water", "81"},
         {"Dragonite", "91", "Dragon Rage", "Dragon Claw", "Fly", "Hyper Beam", "Dragon", "81"},
         {"Mewtwo", "106", "Confusion", "Psychic", "Future Sight", "Shadow Ball", "Psychic", "130"},
+        {"Snorlax", "160", "Body Slam", "Hyper Beam", "Earthquake", "Bite", "Normal", "160"},
+        {"Gengar", "60", "Lick", "Shadow Ball", "Confusion", "Dream Eater", "Ghost", "60"}
     };
     rtc_Enable(0);
 
@@ -107,11 +127,11 @@ void generateField(char * moves[][3], char * pokemon[][9])
     gfx_TransparentSprite(battlebase, 160, 70);
     srandom(rtc_Time());
     int randNum;
-    randNum = randInt(0, 7);
+    randNum = randInt(0, 9);
     Pokemon player1;
     player1.name = pokemon[randNum][0];
-    char * string;
-    for (int i = 0; i < 8; i++)
+
+    for (int i = 0; i < 10; i++)
     {
         if (strcmp(pokemon[i][0], player1.name) == 0)
         {
@@ -122,47 +142,70 @@ void generateField(char * moves[][3], char * pokemon[][9])
             player1.move4 = pokemon[i][5];
             player1.type = pokemon[i][6];
             player1.speed = pokemon[i][7];
+            player1.maxhp = pokemon[i][1];
         }
 
     }
+    static int player2maxhp, player1maxhp;
+
     if (randNum == 0)
     {
         gfx_ScaledTransparentSprite_NoClip(blastoise_back, 15, 55, 2, 2);
+        player1maxhp = 78;
     }
     else if (randNum == 1)
     {
         gfx_ScaledTransparentSprite_NoClip(charizard_back, 15, 55, 2, 2);
+        player1maxhp = 78;
     }
     else if (randNum == 2)
     {
         gfx_ScaledTransparentSprite_NoClip(venusaur_back, 15, 55, 2, 2);
+        player1maxhp = 80;
     }
     else if (randNum == 3)
     {
         gfx_ScaledTransparentSprite_NoClip(alakazam_back, 15, 55, 2, 2);
+        player1maxhp = 55;
     }
     else if (randNum == 4)
     {
         gfx_ScaledTransparentSprite_NoClip(arcanine_back, 15, 55, 2, 2);
+        player1maxhp = 90;
     }
     else if (randNum == 5)
     {
         gfx_ScaledTransparentSprite_NoClip(gyarados_back, 15, 55, 2, 2);
+        player1maxhp = 95;
     }
     else if (randNum == 6)
     {
         gfx_ScaledTransparentSprite_NoClip(dragonite_back, 15, 55, 2, 2);
+        player1maxhp = 91;
     }
     else if (randNum == 7)
     {
         gfx_ScaledTransparentSprite_NoClip(mewtwo_back, 15, 55, 2, 2);
+        player1maxhp = 106;
+    }
+    else if (randNum == 8)
+    {
+        gfx_ScaledTransparentSprite_NoClip(snorlax_back, 15, 55, 2, 2);
+        player1maxhp = 160;
+
+    }
+    else if (randNum == 9)
+    {
+        gfx_ScaledTransparentSprite_NoClip(gengar_back, 15, 55, 2, 2);
+        player1maxhp = 110;
     }
 
+    srandom(rand()%rtc_Time());
     int randNum2;
-    randNum2 = randInt(0, 7);
+    randNum2 = randInt(0, 9);
     Pokemon player2;
     player2.name = pokemon[randNum2][0];
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 10; i++)
     {
         if (strcmp(pokemon[i][0], player2.name) == 0)
         {
@@ -173,41 +216,60 @@ void generateField(char * moves[][3], char * pokemon[][9])
             player2.move4 = pokemon[i][5];
             player2.type = pokemon[i][6];
             player2.speed = pokemon[i][7];
+            player2.maxhp = pokemon[i][1];
 
         } 
     }
-    
+
     if(randNum2 == 0)
     {
         gfx_ScaledTransparentSprite_NoClip(blastoise, 180, 5, 2, 2);
+        player2maxhp = 78;
     }
     else if (randNum2 == 1)
     {
         gfx_ScaledTransparentSprite_NoClip(charizard, 180, 5, 2, 2);
+        player2maxhp = 78;
     }
     else if (randNum2 == 2)
     {
         gfx_ScaledTransparentSprite_NoClip(venusaur, 180, 5, 2, 2);
+        player2maxhp = 80;
     }
     else if (randNum2 == 3)
     {
         gfx_ScaledTransparentSprite_NoClip(alakazam, 180, 5, 2, 2);
+        player2maxhp = 55;
     }
     else if (randNum2 == 4)
     {
         gfx_ScaledTransparentSprite_NoClip(arcanine, 180, 5, 2, 2);
+        player2maxhp = 90;
     }
     else if (randNum2 == 5)
     {
         gfx_ScaledTransparentSprite_NoClip(gyarados, 180, 5, 2, 2);
+        player2maxhp = 95;
     }
     else if (randNum2 == 6)
     {
         gfx_ScaledTransparentSprite_NoClip(dragonite, 180, 5, 2, 2);
+        player2maxhp = 91;
     }
     else if (randNum2 == 7)
     {
         gfx_ScaledTransparentSprite_NoClip(mewtwo, 180, 5, 2, 2);
+        player2maxhp = 106;
+    }
+    else if (randNum2 == 8)
+    {
+        gfx_ScaledTransparentSprite_NoClip(snorlax, 180, 5, 2, 2);
+        player2maxhp = 160;
+    }
+    else if (randNum2 == 9)
+    {
+        gfx_ScaledTransparentSprite_NoClip(gengar, 180, 5, 2, 2);
+        player2maxhp = 60;
     }
 
 
@@ -221,14 +283,21 @@ void generateField(char * moves[][3], char * pokemon[][9])
     //Player 1 Box
     gfx_ScaledTransparentSprite_NoClip(dialoguebox, 150, 110, 1, 1);
     gfx_PrintStringXY(("%s\n", player1.name), 160, 122);
-    gfx_PrintStringXY("HP: ", 260, 132);
-    gfx_PrintStringXY(("%s\n", player1.hp), 280, 132);
+    gfx_PrintStringXY("HP: ", 160, 132);
+    gfx_SetColor(2);
+    gfx_FillRectangle(180, 132, 120, 8);
+    gfx_SetColor(39);
+    gfx_FillRectangle(182, 135, 116, 2);
 
     //Player 2 Box
     gfx_ScaledTransparentSprite_NoClip(dialoguebox, 5, 30, 1, 1);
     gfx_PrintStringXY(("%s", player2.name), 15, 42);
-    gfx_PrintStringXY("HP: ", 115, 52);
-    gfx_PrintStringXY(("%s", player2.hp), 135, 52);
+    gfx_PrintStringXY("HP: ", 15, 52);
+    gfx_SetColor(2);
+    gfx_FillRectangle(35, 52, 120, 8);
+    gfx_SetColor(39);
+    gfx_FillRectangle(37, 55, 116, 2);
+
 
     char * winner;
 
@@ -281,13 +350,17 @@ void generateField(char * moves[][3], char * pokemon[][9])
         sprintf(player1.hp, "%d", atoi(player1.hp) - damage);
         gfx_ScaledTransparentSprite_NoClip(dialoguebox, 150, 110, 1, 1);
         gfx_PrintStringXY(("%s", player1.name), 160, 122);
-        gfx_PrintStringXY("HP: ", 260, 132);
-        gfx_PrintStringXY(("%s", player1.hp), 280, 132);
+        gfx_PrintStringXY("HP: ", 160, 132);
+        gfx_SetColor(2);
+        gfx_FillRectangle(180, 132, 120, 8);
+        gfx_SetColor(39);
+        gfx_FillRectangle(182, 135, (int)(116*(atoi(player1.hp)/(float)player1maxhp)), 2);
 
         gfx_ScaledTransparentSprite_NoClip(dialoguebox, 0, 160, 2, 2);
         gfx_PrintStringXY(("%s", player2.name), 45, 190);
         gfx_PrintStringXY("used", 45, 200);
         gfx_PrintStringXY(("%s", player2move), 80, 200);
+
         if(atoi(player1.hp) <= 0){
             winner = "2";
             break;
@@ -305,8 +378,12 @@ void generateField(char * moves[][3], char * pokemon[][9])
         sprintf(player2.hp, "%d", atoi(player2.hp) - damage);
         gfx_ScaledTransparentSprite_NoClip(dialoguebox, 5, 30, 1, 1);
         gfx_PrintStringXY(("%s", player2.name), 15, 42);
-        gfx_PrintStringXY("HP: ", 115, 52);
-        gfx_PrintStringXY(("%s", player2.hp), 135, 52);
+        gfx_PrintStringXY("HP: ", 15, 52);
+        gfx_SetColor(2);
+        gfx_FillRectangle(35, 52, 120, 8);
+        gfx_SetColor(39);
+        gfx_FillRectangle(37, 55, (int)(116*(atoi(player2.hp)/(float)player2maxhp)), 2);
+
 
         gfx_ScaledTransparentSprite_NoClip(dialoguebox, 0, 160, 2, 2);
         gfx_PrintStringXY(("%s", player1.name), 45, 190);
@@ -359,7 +436,7 @@ void generateField(char * moves[][3], char * pokemon[][9])
 int calcDamage(Pokemon defender, char * moves[][3], char * move) {
     int movedamage;
     char * movetype;
-    for (int i = 0; i < 22; i++)
+    for (int i = 0; i < 37; i++)
     {
         if (moves[i][0] == move)
         {
@@ -368,32 +445,42 @@ int calcDamage(Pokemon defender, char * moves[][3], char * move) {
         }
     }
     float typedamage;
-    if(strcmp(movetype,"Fire") == 0 && strcmp(defender.type,"Grass") == 0) {
-        typedamage = 2;
-    } else if(strcmp(movetype,"Fire") == 0 && strcmp(defender.type,"Water") == 0) {
-        typedamage = 0.5;
-    } else if(strcmp(movetype,"Fire") == 0 && strcmp(defender.type,"Fire") == 0) {
-        typedamage = 0.5;
-    } else if(strcmp(movetype,"Water") == 0 && strcmp(defender.type,"Fire") == 0) {
-        typedamage = 2;
-    } else if(strcmp(movetype,"Water") == 0 && strcmp(defender.type,"Grass") == 0) {
-        typedamage = 0.5;
-    } else if(strcmp(movetype,"Water") == 0 && strcmp(defender.type,"Water") == 0) {
-        typedamage = 0.5;
-    } else if(strcmp(movetype,"Grass") == 0 && strcmp(defender.type,"Water") == 0) {
-        typedamage = 2;
-    } else if(strcmp(movetype,"Grass") == 0 && strcmp(defender.type,"Fire") == 0) {
-        typedamage = 0.5;
-    } else if(strcmp(movetype,"Grass") == 0 && strcmp(defender.type,"Grass") == 0) {
-        typedamage = 0.5;
-    } else if(strcmp(movetype,"Ghost") == 0 && strcmp(defender.type,"Psychic") == 0) {
-        typedamage = 2;
-    } else if(strcmp(movetype,"Psychic") == 0 && strcmp(defender.type,"Psychic") == 0) {
-        typedamage = 0.5;
-    } else if(strcmp(movetype,"Dark") == 0 && strcmp(defender.type, "Psychic") == 0) {
-        typedamage = 2;
-    } else {
-        typedamage = 1;
+
+    char * types[18] = {"Normal", "Fire", "Water", "Electric", "Grass", "Ice", "Fighting", "Poison", "Ground", "Flying", "Psychic", "Bug", "Rock", "Ghost", "Dragon", "Dark", "Steel", "Fairy"};
+
+    float typechart[18][18] = {
+        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5, 0, 1, 1, 0.5, 1},
+        {1, 0.5, 0.5, 1, 2, 2, 1, 1, 1, 1, 1, 2, 0.5, 1, 0.5, 1, 2, 1},
+        {1, 2, 0.5, 1, 0.5, 1, 1, 1, 2, 1, 1, 1, 2, 1, 0.5, 1, 1, 1},
+        {1, 1, 2, 0.5, 0.5, 1, 1, 1, 0, 2, 1, 1, 1, 1, 0.5, 1, 1, 1},
+        {1, 0.5, 2, 1, 0.5, 1, 1, 0.5, 2, 0.5, 1, 0.5, 2, 1, 0.5, 1, 0.5, 1},
+        {1, 0.5, 0.5, 1, 2, 0.5, 1, 1, 2, 2, 1, 1, 1, 1, 2, 1, 0.5, 1},
+        {2, 1, 1, 1, 1, 2, 1, 0.5, 1, 0.5, 0.5, 0.5, 2, 0, 1, 2, 2, 0.5},
+        {1, 1, 1, 1, 2, 1, 1, 0.5, 0.5, 1, 1, 1, 0.5, 0.5, 1, 1, 0, 2},
+        {1, 2, 1, 2, 0.5, 1, 1, 2, 1, 0, 1, 0.5, 2, 1, 1, 1, 2, 1},
+        {1, 1, 1, 0.5, 2, 1, 2, 1, 1, 1, 1, 2, 0.5, 1, 1, 1, 0.5, 1},
+        {1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 0.5, 1, 1, 1, 1, 0, 0.5, 1},
+        {1, 0.5, 1, 1, 2, 1, 0.5, 0.5, 1, 0.5, 2, 1, 1, 0.5, 1, 2, 0.5, 0.5},
+        {1, 2, 1, 1, 1, 2, 0.5, 1, 0.5, 2, 1, 2, 1, 1, 1, 1, 0.5, 1},
+        {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 0.5, 1, 1},
+        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 0.5, 0},
+        {1, 1, 1, 1, 1, 1, 0.5, 1, 1, 1, 2, 1, 1, 2, 1, 0.5, 1, 0.5},
+        {1, 0.5, 0.5, 0.5, 1, 2, 2, 0, 1, 1, 1, 1, 2, 1, 1, 1, 0.5, 2},
+        {1, 0.5, 1, 1, 1, 1, 2, 0.5, 1, 1, 1, 1, 1, 1, 2, 2, 0.5, 1}
+    };
+
+    for (int i = 0; i < 18; i++)
+    {
+        if (types[i] == movetype)
+        {
+            for (int j = 0; j < 18; j++)
+            {
+                if (types[j] == defender.type)
+                {
+                    typedamage = typechart[i][j];
+                }
+            }
+        }
     }
 
     int damage = (((2*100)/5 + 2) * movedamage)/200 * typedamage;

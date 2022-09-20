@@ -10,5 +10,6 @@ obj/src/main.c.bc: src\main.c C:\CEdev\include\stdio.h \
   src\gfx\venusaur_back.h src\gfx\alakazam.h src\gfx\alakazam_back.h \
   src\gfx\arcanine.h src\gfx\arcanine_back.h src\gfx\dragonite.h \
   src\gfx\dragonite_back.h src\gfx\gyarados.h src\gfx\gyarados_back.h \
-  src\gfx\mewtwo.h src\gfx\mewtwo_back.h src\gfx\timon.h \
-  C:\CEdev\include\sys\util.h C:\CEdev\include\sys\rtc.h
+  src\gfx\mewtwo.h src\gfx\mewtwo_back.h src\gfx\snorlax.h \
+  src\gfx\snorlax_back.h src\gfx\gengar.h src\gfx\gengar_back.h \
+  src\gfx\timon.h C:\CEdev\include\sys\util.h C:\CEdev\include\sys\rtc.h

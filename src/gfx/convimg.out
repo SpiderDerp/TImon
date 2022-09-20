@@ -38,6 +38,14 @@ mewtwo.h
 mewtwo.c
 mewtwo_back.h
 mewtwo_back.c
+snorlax.h
+snorlax.c
+snorlax_back.h
+snorlax_back.c
+gengar.h
+gengar.c
+gengar_back.h
+gengar_back.c
 timon.h
 timon.c
 gfx.h
